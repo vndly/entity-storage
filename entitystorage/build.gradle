@@ -48,48 +48,11 @@ android
 group = 'com.mauriciotogneri'
 version = releaseVersion
 
-/*install {
-    repositories.mavenInstaller {
-        pom {
-            project {
-                packaging 'jar'
-                //groupId 'com.mauriciotogneri'
-                //artifactId 'entitystorage'
-                //version '0.0.18'
-                url 'https://github.com/mauriciotogneri/entity-storage'
-                licenses {
-                    license {
-                        name 'MIT'
-                        url 'https://raw.githubusercontent.com/mauriciotogneri/entity-storage/master/LICENSE.txt'
-                    }
-                }
-                developers {
-                    developer {
-                        name 'Mauricio Togneri'
-                        email 'mauricio.togneri@gmail.com'
-                    }
-                }
-            }
-        }
-    }
-}*/
-
-/*publishing {
-    publications {
-        MyPublication(MavenPublication) {
-            groupId 'com.mauriciotogneri'
-            artifactId 'entitystorage'
-            version '0.0.6'
-        }
-    }
-}*/
-
 bintray
 {
     user = bintray_user
     key = bintray_apikey
     configurations = ['archives']
-    //publications = ['MyPublication']
     pkg
     {
         repo = 'maven'
