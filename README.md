@@ -1,2 +1,2 @@
-# entity-storage
+# Entity Storage
 Entity Storage
