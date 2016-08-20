@@ -5,6 +5,8 @@ apply plugin: 'maven'
 apply plugin: 'maven-publish'
 
 def releaseVersion = '0.0.25'
+def bintrayUser = hasProperty('bintray_user') ? bintray_user : ''
+def bintrayApiKey = hasProperty('bintray_apikey') ? bintray_apikey : ''
 
 android
 {
@@ -55,8 +57,8 @@ version = releaseVersion
 
 bintray
 {
-    user = bintray_user
-    key = bintray_apikey
+    user = bintrayUser
+    key = bintrayApiKey
     configurations = ['archives']
     pkg
     {

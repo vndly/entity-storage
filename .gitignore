@@ -31,5 +31,5 @@ gradle.properties
 # Ignore gradle files
 .gradle
 /build
-/app/build
+/entitystorage/build
 **/build
