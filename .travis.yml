@@ -5,8 +5,10 @@ android:
     - tools
 
     - build-tools-24.0.1
+    - android-23
 
-    - android-24
+    - sys-img-armeabi-v7a-android-23
+    - sys-img-x86-android-23
 
-    - sys-img-armeabi-v7a-android-24
-    - sys-img-x86-android-24
+script:
+    - chmod +x ./gradlew
