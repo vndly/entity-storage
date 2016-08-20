@@ -1,0 +1,130 @@
+apply plugin: 'com.android.library'
+apply plugin: 'com.github.dcendents.android-maven'
+apply plugin: 'com.jfrog.bintray'
+apply plugin: 'maven'
+apply plugin: 'maven-publish'
+
+def releaseVersion = '0.0.25'
+
+android
+{
+    compileSdkVersion 24
+    buildToolsVersion "24.0.1"
+
+    dexOptions
+    {
+        javaMaxHeapSize "2g"
+    }
+
+    defaultConfig
+    {
+        minSdkVersion 10
+        targetSdkVersion 24
+        versionCode 1
+        versionName releaseVersion
+        testInstrumentationRunner "android.support.test.runner.AndroidJUnitRunner"
+    }
+
+    buildTypes
+    {
+        debug
+        {
+            debuggable true
+        }
+
+        release
+        {
+            minifyEnabled false
+        }
+    }
+
+    compileOptions
+    {
+        sourceCompatibility JavaVersion.VERSION_1_7
+        targetCompatibility JavaVersion.VERSION_1_7
+    }
+}
+
+group = 'com.mauriciotogneri'
+version = releaseVersion
+
+/*install {
+    repositories.mavenInstaller {
+        pom {
+            project {
+                packaging 'jar'
+                //groupId 'com.mauriciotogneri'
+                //artifactId 'entitystorage'
+                //version '0.0.18'
+                url 'https://github.com/mauriciotogneri/entity-storage'
+                licenses {
+                    license {
+                        name 'MIT'
+                        url 'https://raw.githubusercontent.com/mauriciotogneri/entity-storage/master/LICENSE.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        name 'Mauricio Togneri'
+                        email 'mauricio.togneri@gmail.com'
+                    }
+                }
+            }
+        }
+    }
+}*/
+
+/*publishing {
+    publications {
+        MyPublication(MavenPublication) {
+            groupId 'com.mauriciotogneri'
+            artifactId 'entitystorage'
+            version '0.0.6'
+        }
+    }
+}*/
+
+bintray
+{
+    user = bintray_user
+    key = bintray_apikey
+    configurations = ['archives']
+    //publications = ['MyPublication']
+    pkg
+    {
+        repo = 'maven'
+        name = 'entitystorage'
+        licenses = ['MIT']
+        publish = true
+        version
+        {
+            name = releaseVersion
+            vcsTag = releaseVersion
+        }
+    }
+}
+
+task sourcesJar(type: Jar) {
+    from android.sourceSets.main.java.srcDirs
+    classifier = 'sources'
+}
+
+task javadoc(type: Javadoc) {
+    source = android.sourceSets.main.java.srcDirs
+    classpath += project.files(android.getBootClasspath().join(File.pathSeparator))
+}
+
+task javadocJar(type: Jar, dependsOn: javadoc) {
+    classifier = 'javadoc'
+    from javadoc.destinationDir
+}
+
+artifacts {
+    archives javadocJar
+    archives sourcesJar
+}
+
+dependencies
+{
+    androidTestCompile 'com.android.support.test:runner:0.5'
+}
