@@ -23,7 +23,7 @@ public class IndexContentTest extends StorageTest
         EntityStorage<TestEntity> storage = storage(DEFAULT_NAME, DEFAULT_INDEX);
         storage.addEntity(testEntity);
 
-        assertEquals(1, storage.index().size());
+        assertEquals(1, storage.size());
         assertTrue(storage.exists("ABC"));
     }
 
@@ -41,7 +41,7 @@ public class IndexContentTest extends StorageTest
             storage.addEntity(testEntity);
         }
 
-        assertEquals(storage.index().size(), entities.size());
+        assertEquals(storage.size(), entities.size());
 
         Set<String> index = storage.index();
         int counter = 0;

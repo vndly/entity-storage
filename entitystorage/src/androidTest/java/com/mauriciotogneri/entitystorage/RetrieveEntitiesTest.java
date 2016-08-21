@@ -28,8 +28,25 @@ public class RetrieveEntitiesTest extends StorageTest
         TestEntity retrievedEntity = storage.entity("123");
 
         assertEquals(initialEntity.content, retrievedEntity.content);
-        assertEquals(1, storage.index().size());
+        assertEquals(1, storage.size());
         assertFalse(storage.isEmpty());
+    }
+
+    @Test
+    public void retrieveSingleEntityAsList()
+    {
+        TestEntity initialEntity = TestEntity.withKey("123");
+
+        EntityStorage<TestEntity> storage = storage(DEFAULT_NAME, DEFAULT_INDEX);
+        storage.addEntity(initialEntity);
+
+        assertEquals(1, storage.size());
+        assertFalse(storage.isEmpty());
+
+        List<TestEntity> retrievedEntities = storage.entities();
+
+        TestEntity retrievedEntity = retrievedEntities.get(0);
+        assertEquals(initialEntity.content, retrievedEntity.content);
     }
 
     @Test
@@ -53,11 +70,44 @@ public class RetrieveEntitiesTest extends StorageTest
         }
     }
 
+    @Test
+    public void retrieveMultipleEntitiesAsList()
+    {
+        EntityStorage<TestEntity> storage = storage(DEFAULT_NAME, DEFAULT_INDEX);
+
+        List<TestEntity> initialEntities = new ArrayList<>();
+
+        for (int i = 0; i < 10; i++)
+        {
+            TestEntity testEntity = TestEntity.withKey(String.valueOf(i));
+            initialEntities.add(testEntity);
+            storage.addEntity(testEntity);
+        }
+
+        List<TestEntity> retrievedEntities = storage.entities();
+
+        assertEquals(initialEntities.size(), retrievedEntities.size());
+        assertEquals(initialEntities.size(), storage.size());
+
+        for (int i = 0; i < 10; i++)
+        {
+            assertEquals(storage.entity(String.valueOf(i)).key, initialEntities.get(i).key);
+            assertEquals(storage.entity(String.valueOf(i)).content, initialEntities.get(i).content);
+        }
+    }
+
     @Test(expected = InvalidKeyException.class)
     public void invalidEntityKey()
     {
         EntityStorage<TestEntity> storage = storage(DEFAULT_NAME, DEFAULT_INDEX);
         storage.addEntity(TestEntity.withKey(DEFAULT_INDEX));
+    }
+
+    @Test(expected = InvalidKeyException.class)
+    public void invalidEntityNullKey()
+    {
+        EntityStorage<TestEntity> storage = storage(DEFAULT_NAME, DEFAULT_INDEX);
+        storage.addEntity(TestEntity.withKey(null));
     }
 
     @Test(expected = EntityNotFoundException.class)

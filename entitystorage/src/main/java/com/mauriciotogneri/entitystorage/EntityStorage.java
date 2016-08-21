@@ -5,6 +5,7 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import com.mauriciotogneri.entitystorage.exceptions.EntityNotFoundException;
+import com.mauriciotogneri.entitystorage.exceptions.InvalidContentException;
 import com.mauriciotogneri.entitystorage.exceptions.InvalidKeyException;
 
 import java.util.ArrayList;
@@ -31,6 +32,11 @@ public class EntityStorage<E>
     public Set<String> index()
     {
         return new TreeSet<>(getStringSet(indexKey));
+    }
+
+    public int size()
+    {
+        return index().size();
     }
 
     public boolean isEmpty()
@@ -72,7 +78,7 @@ public class EntityStorage<E>
             throw new EntityNotFoundException(String.format("Entity with key '%s' not found", key));
         }
 
-        return converter.create(key, getString(key, null));
+        return converter.create(key, getString(key));
     }
 
     public List<E> entities()
@@ -93,6 +99,7 @@ public class EntityStorage<E>
         String content = converter.content(entity);
 
         checkInvalidKey(key);
+        checkInvalidContent(content);
 
         putString(key, content);
         addKey(key);
@@ -110,9 +117,17 @@ public class EntityStorage<E>
 
     private void checkInvalidKey(String key)
     {
-        if (TextUtils.equals(key, indexKey))
+        if ((key == null) || TextUtils.equals(key, indexKey))
         {
             throw new InvalidKeyException(String.format("The key '%s' cannot be used for an entity", key));
+        }
+    }
+
+    private void checkInvalidContent(String content)
+    {
+        if (content == null)
+        {
+            throw new InvalidContentException(String.format("The content '%s' cannot be used for an entity", content));
         }
     }
 
@@ -123,9 +138,9 @@ public class EntityStorage<E>
         return preferences.contains(key);
     }
 
-    private String getString(String key, String defaultValue)
+    private String getString(String key)
     {
-        return preferences.getString(key, defaultValue);
+        return preferences.getString(key, null);
     }
 
     private void putString(String key, String value)

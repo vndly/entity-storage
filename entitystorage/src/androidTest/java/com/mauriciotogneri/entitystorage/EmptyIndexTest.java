@@ -19,7 +19,7 @@ public class EmptyIndexTest extends StorageTest
     {
         EntityStorage<TestEntity> storage = storage(DEFAULT_NAME, DEFAULT_INDEX);
 
-        assertEquals(0, storage.index().size());
+        assertEquals(0, storage.size());
         assertTrue(storage.isEmpty());
     }
 
@@ -43,7 +43,23 @@ public class EmptyIndexTest extends StorageTest
             storage.removeEntity(testEntity);
         }
 
-        assertEquals(0, storage.index().size());
+        assertEquals(0, storage.size());
+        assertTrue(storage.isEmpty());
+    }
+
+    @Test
+    public void emptyIndexAfterClearingIndex()
+    {
+        EntityStorage<TestEntity> storage = storage(DEFAULT_NAME, DEFAULT_INDEX);
+
+        for (int i = 0; i < 10; i++)
+        {
+            storage.addEntity(TestEntity.withKey(String.valueOf(i)));
+        }
+
+        storage.clear();
+
+        assertEquals(0, storage.size());
         assertTrue(storage.isEmpty());
     }
 
@@ -60,7 +76,7 @@ public class EmptyIndexTest extends StorageTest
 
         storage.clear();
 
-        assertEquals(0, storage.index().size());
+        assertEquals(0, storage.size());
         assertTrue(storage.isEmpty());
     }
 }
