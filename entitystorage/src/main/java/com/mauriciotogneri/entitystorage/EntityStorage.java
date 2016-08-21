@@ -10,14 +10,16 @@ import java.util.List;
 import java.util.Set;
 import java.util.TreeSet;
 
-public class EntityStorage
+public class EntityStorage<E>
 {
     private final String indexKey;
     private final SharedPreferences preferences;
+    private final Converter<E> converter;
 
-    public EntityStorage(Context context, String name, String indexKey)
+    public EntityStorage(Context context, String name, String indexKey, Converter<E> converter)
     {
         this.indexKey = indexKey;
+        this.converter = converter;
         this.preferences = context.getSharedPreferences(name, Context.MODE_PRIVATE);
     }
 
@@ -33,18 +35,32 @@ public class EntityStorage
         return index().isEmpty();
     }
 
+    private void removeKey(String key)
+    {
+        Set<String> index = index();
+        index.remove(key);
+        putStringSet(indexKey, index);
+    }
+
+    private void addKey(String key)
+    {
+        Set<String> index = index();
+        index.add(key);
+        putStringSet(indexKey, index);
+    }
+
     // ======================================== ENTITIES ======================================== \\
 
-    public String entity(String key)
+    public E entity(String key)
     {
         checkInvalidKey(key);
 
-        return getString(key, "");
+        return converter.create(key, getString(key, null));
     }
 
-    public List<String> entities()
+    public List<E> entities()
     {
-        List<String> entities = new ArrayList<>();
+        List<E> entities = new ArrayList<>();
 
         for (String key : index())
         {
@@ -54,22 +70,25 @@ public class EntityStorage
         return entities;
     }
 
-    public void addEntity(String key, String entity)
+    public void addEntity(E entity)
     {
+        String key = converter.key(entity);
+        String content = converter.content(entity);
+
         checkInvalidKey(key);
 
-        putString(key, entity);
+        putString(key, content);
+        addKey(key);
     }
 
-    public void removeEntity(String key)
+    public void removeEntity(E entity)
     {
+        String key = converter.key(entity);
+
         checkInvalidKey(key);
 
+        removeKey(key);
         remove(key);
-
-        Set<String> index = index();
-        index.remove(key);
-        putStringSet(indexKey, index);
     }
 
     private void checkInvalidKey(String key)
@@ -110,14 +129,5 @@ public class EntityStorage
     public void clear()
     {
         preferences.edit().clear().apply();
-    }
-
-    public interface Entity<T>
-    {
-        String id();
-
-        String content();
-
-        T create(String id, String content);
     }
 }

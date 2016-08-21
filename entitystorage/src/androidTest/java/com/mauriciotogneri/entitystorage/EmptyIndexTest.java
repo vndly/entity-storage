@@ -17,50 +17,50 @@ public class EmptyIndexTest extends StorageTest
     @Test
     public void emptyIndex()
     {
-        EntityStorage storage = storage(DEFAULT_NAME, DEFAULT_INDEX);
+        EntityStorage<TestEntity> storage = storage(DEFAULT_NAME, DEFAULT_INDEX);
 
-        assertEquals(storage.index().size(), 0);
+        assertEquals(0, storage.index().size());
         assertTrue(storage.isEmpty());
     }
 
     @Test
     public void emptyIndexAfterRemovingAllEntities()
     {
-        EntityStorage storage = storage(DEFAULT_NAME, DEFAULT_INDEX);
+        EntityStorage<TestEntity> storage = storage(DEFAULT_NAME, DEFAULT_INDEX);
 
         List<TestEntity> entities = new ArrayList<>();
 
         for (int i = 0; i < 10; i++)
         {
-            TestEntity testEntity = TestEntity.entity();
+            TestEntity testEntity = TestEntity.withKey(String.valueOf(i));
             entities.add(testEntity);
-            storage.addEntity(testEntity.id, testEntity.toString());
+            storage.addEntity(testEntity);
         }
 
         for (int i = 0; i < 10; i++)
         {
             TestEntity testEntity = entities.get(i);
-            storage.removeEntity(testEntity.id);
+            storage.removeEntity(testEntity);
         }
 
-        assertEquals(storage.index().size(), 0);
+        assertEquals(0, storage.index().size());
         assertTrue(storage.isEmpty());
     }
 
     @Test
     public void emptyIndexAfterClear()
     {
-        EntityStorage storage = storage(DEFAULT_NAME, DEFAULT_INDEX);
+        EntityStorage<TestEntity> storage = storage(DEFAULT_NAME, DEFAULT_INDEX);
 
         for (int i = 0; i < 10; i++)
         {
-            TestEntity testEntity = TestEntity.entity();
-            storage.addEntity(testEntity.id, testEntity.toString());
+            TestEntity testEntity = TestEntity.withKey(String.valueOf(i));
+            storage.addEntity(testEntity);
         }
 
         storage.clear();
 
-        assertEquals(storage.index().size(), 0);
+        assertEquals(0, storage.index().size());
         assertTrue(storage.isEmpty());
     }
 }
