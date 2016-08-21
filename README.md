@@ -2,4 +2,11 @@
 [![License](https://img.shields.io/badge/license-MIT-green.svg)](https://github.com/mauriciotogneri/entity-storage/blob/master/LICENSE.txt)
 
 # Entity Storage
-Android library that stores entities in shared preferences.
+**Entity Storage** is an index based Android library that stores entities in shared preferences. The library requires at minimum Android 4.0.
+
+## Configure
+Add the following dependency to your `build.gradle` file:
+
+```groovy
+compile 'com.mauriciotogneri:entitystorage:1.0.0'
+```
