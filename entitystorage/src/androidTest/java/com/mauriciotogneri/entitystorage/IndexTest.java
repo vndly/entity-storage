@@ -2,6 +2,7 @@ package com.mauriciotogneri.entitystorage;
 
 import android.support.test.runner.AndroidJUnit4;
 
+import org.junit.After;
 import org.junit.Test;
 import org.junit.runner.RunWith;
 
@@ -15,6 +16,13 @@ import static org.junit.Assert.assertTrue;
 @RunWith(AndroidJUnit4.class)
 public class IndexTest extends StorageTest
 {
+    @After
+    public void setUp()
+    {
+        EntityStorage<TestEntity> storage = storage(DEFAULT_NAME, DEFAULT_INDEX);
+        storage.clear();
+    }
+
     @Test
     public void emptyIndex()
     {

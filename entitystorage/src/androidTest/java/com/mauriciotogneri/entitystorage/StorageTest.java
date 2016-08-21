@@ -2,25 +2,13 @@ package com.mauriciotogneri.entitystorage;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
-import android.support.test.runner.AndroidJUnit4;
-
-import org.junit.After;
-import org.junit.runner.RunWith;
 
 import java.util.UUID;
 
-@RunWith(AndroidJUnit4.class)
 public class StorageTest
 {
     protected static final String DEFAULT_NAME = "name";
     protected static final String DEFAULT_INDEX = "index";
-
-    @After
-    public void setUp()
-    {
-        EntityStorage<TestEntity> storage = storage(DEFAULT_NAME, DEFAULT_INDEX);
-        storage.clear();
-    }
 
     protected EntityStorage<TestEntity> storage(String name, String index)
     {
