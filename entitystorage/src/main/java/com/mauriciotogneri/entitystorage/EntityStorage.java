@@ -8,6 +8,7 @@ import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
 import java.util.Set;
+import java.util.TreeSet;
 
 public class EntityStorage
 {
@@ -20,24 +21,19 @@ public class EntityStorage
         this.preferences = context.getSharedPreferences(name, Context.MODE_PRIVATE);
     }
 
-    // =============== INDEX =============== \\
+    // ========================================== INDEX ========================================= \\
 
     public Set<String> index()
     {
-        return getStringSet(indexKey);
+        return new TreeSet<>(getStringSet(indexKey));
     }
 
-    public void clearIndex()
+    public boolean isEmpty()
     {
-        for (String key : index())
-        {
-            removeEntity(key);
-        }
-
-        putStringSet(indexKey, new HashSet<String>());
+        return index().isEmpty();
     }
 
-    // =============== ENTITIES =============== \\
+    // ======================================== ENTITIES ======================================== \\
 
     public String entity(String key)
     {
@@ -58,7 +54,7 @@ public class EntityStorage
         return entities;
     }
 
-    public void entity(String key, String entity)
+    public void addEntity(String key, String entity)
     {
         checkInvalidKey(key);
 
@@ -84,7 +80,7 @@ public class EntityStorage
         }
     }
 
-    // =============== PREFERENCES =============== \\
+    // ====================================== PREFERENCES ======================================= \\
 
     private String getString(String key, String defaultValue)
     {
@@ -114,5 +110,14 @@ public class EntityStorage
     public void clear()
     {
         preferences.edit().clear().apply();
+    }
+
+    public interface Entity<T>
+    {
+        String id();
+
+        String content();
+
+        T create(String id, String content);
     }
 }
