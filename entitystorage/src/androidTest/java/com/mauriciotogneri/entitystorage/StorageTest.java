@@ -66,10 +66,5 @@ public class StorageTest
         {
             return new TestEntity(key, UUID.randomUUID().toString());
         }
-
-        public static TestEntity randomEntity()
-        {
-            return new TestEntity(UUID.randomUUID().toString(), UUID.randomUUID().toString());
-        }
     }
 }

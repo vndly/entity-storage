@@ -15,7 +15,7 @@ import static org.junit.Assert.assertEquals;
 import static org.junit.Assert.assertFalse;
 
 @RunWith(AndroidJUnit4.class)
-public class RetrieveEntitiesTest extends StorageTest
+public class EntityTest extends StorageTest
 {
     @Test
     public void retrieveSingleEntity()

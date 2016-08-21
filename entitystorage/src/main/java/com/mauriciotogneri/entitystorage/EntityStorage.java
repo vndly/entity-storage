@@ -5,7 +5,6 @@ import android.content.SharedPreferences;
 import android.text.TextUtils;
 
 import com.mauriciotogneri.entitystorage.exceptions.EntityNotFoundException;
-import com.mauriciotogneri.entitystorage.exceptions.InvalidContentException;
 import com.mauriciotogneri.entitystorage.exceptions.InvalidKeyException;
 
 import java.util.ArrayList;
@@ -99,7 +98,6 @@ public class EntityStorage<E>
         String content = converter.content(entity);
 
         checkInvalidKey(key);
-        checkInvalidContent(content);
 
         putString(key, content);
         addKey(key);
@@ -120,14 +118,6 @@ public class EntityStorage<E>
         if ((key == null) || TextUtils.equals(key, indexKey))
         {
             throw new InvalidKeyException(String.format("The key '%s' cannot be used for an entity", key));
-        }
-    }
-
-    private void checkInvalidContent(String content)
-    {
-        if (content == null)
-        {
-            throw new InvalidContentException(String.format("The content '%s' cannot be used for an entity", content));
         }
     }
 
