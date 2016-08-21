@@ -4,6 +4,9 @@ import android.content.Context;
 import android.content.SharedPreferences;
 import android.text.TextUtils;
 
+import com.mauriciotogneri.entitystorage.exceptions.EntityNotFoundException;
+import com.mauriciotogneri.entitystorage.exceptions.InvalidKeyException;
+
 import java.util.ArrayList;
 import java.util.HashSet;
 import java.util.List;
@@ -35,6 +38,15 @@ public class EntityStorage<E>
         return index().isEmpty();
     }
 
+    public boolean exists(String key)
+    {
+        checkInvalidKey(key);
+
+        Set<String> index = index();
+
+        return index.contains(key);
+    }
+
     private void removeKey(String key)
     {
         Set<String> index = index();
@@ -54,6 +66,11 @@ public class EntityStorage<E>
     public E entity(String key)
     {
         checkInvalidKey(key);
+
+        if (!contains(key) || !exists(key))
+        {
+            throw new EntityNotFoundException(String.format("Entity with key '%s' not found", key));
+        }
 
         return converter.create(key, getString(key, null));
     }
@@ -95,11 +112,16 @@ public class EntityStorage<E>
     {
         if (TextUtils.equals(key, indexKey))
         {
-            throw new RuntimeException(String.format("The key '%s' cannot be used for an entity", key));
+            throw new InvalidKeyException(String.format("The key '%s' cannot be used for an entity", key));
         }
     }
 
     // ====================================== PREFERENCES ======================================= \\
+
+    private boolean contains(String key)
+    {
+        return preferences.contains(key);
+    }
 
     private String getString(String key, String defaultValue)
     {

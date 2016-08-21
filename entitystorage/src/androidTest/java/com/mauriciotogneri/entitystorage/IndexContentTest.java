@@ -10,6 +10,7 @@ import java.util.List;
 import java.util.Set;
 
 import static org.junit.Assert.assertEquals;
+import static org.junit.Assert.assertTrue;
 
 @RunWith(AndroidJUnit4.class)
 public class IndexContentTest extends StorageTest
@@ -17,14 +18,17 @@ public class IndexContentTest extends StorageTest
     @Test
     public void indexContentWithOneEntity()
     {
+        TestEntity testEntity = TestEntity.withKey("ABC");
+
         EntityStorage<TestEntity> storage = storage(DEFAULT_NAME, DEFAULT_INDEX);
-        storage.addEntity(TestEntity.randomEntity());
+        storage.addEntity(testEntity);
 
         assertEquals(1, storage.index().size());
+        assertTrue(storage.exists("ABC"));
     }
 
     @Test
-    public void indexContentWithSeveralEntity()
+    public void indexContentWithMultipleEntity()
     {
         EntityStorage<TestEntity> storage = storage(DEFAULT_NAME, DEFAULT_INDEX);
 

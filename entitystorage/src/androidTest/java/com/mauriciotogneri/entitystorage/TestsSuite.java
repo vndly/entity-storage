@@ -6,7 +6,8 @@ import org.junit.runners.Suite;
 @RunWith(Suite.class)
 @Suite.SuiteClasses({
         EmptyIndexTest.class,
-        IndexContentTest.class
+        IndexContentTest.class,
+        RetrieveEntitiesTest.class
 })
 public class TestsSuite
 {
