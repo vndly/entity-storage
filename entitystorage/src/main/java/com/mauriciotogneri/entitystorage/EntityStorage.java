@@ -105,8 +105,11 @@ public class EntityStorage<E>
 
     public void removeEntity(E entity)
     {
-        String key = converter.key(entity);
+        removeEntity(converter.key(entity));
+    }
 
+    public void removeEntity(String key)
+    {
         checkInvalidKey(key);
 
         removeKey(key);

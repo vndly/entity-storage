@@ -19,7 +19,6 @@ public class StorageTest
 
     private class TestEntityConverter implements Converter<TestEntity>
     {
-
         @Override
         public String key(TestEntity entity)
         {
@@ -44,7 +43,7 @@ public class StorageTest
         public final String key;
         public final String content;
 
-        private TestEntity(String key, String content)
+        public TestEntity(String key, String content)
         {
             this.key = key;
             this.content = content;
