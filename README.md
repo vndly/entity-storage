@@ -79,7 +79,7 @@ else if (storage.exists("456"))
 storage.clear();
 ```
 
-## Configure
+## Installation
 Add the following dependency to your `build.gradle` file:
 
 ```groovy
