@@ -1,4 +1,4 @@
-package com.mauriciotogneri.entitystorage;
+package com.mauriciotogneri.entitystorage.test;
 
 import org.junit.runner.RunWith;
 import org.junit.runners.Suite;

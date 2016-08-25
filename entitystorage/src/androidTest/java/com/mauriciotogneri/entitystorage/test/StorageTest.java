@@ -1,7 +1,10 @@
-package com.mauriciotogneri.entitystorage;
+package com.mauriciotogneri.entitystorage.test;
 
 import android.content.Context;
 import android.support.test.InstrumentationRegistry;
+
+import com.mauriciotogneri.entitystorage.Converter;
+import com.mauriciotogneri.entitystorage.EntityStorage;
 
 import java.util.UUID;
 

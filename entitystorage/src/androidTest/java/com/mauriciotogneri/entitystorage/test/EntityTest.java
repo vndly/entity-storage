@@ -1,7 +1,8 @@
-package com.mauriciotogneri.entitystorage;
+package com.mauriciotogneri.entitystorage.test;
 
 import android.support.test.runner.AndroidJUnit4;
 
+import com.mauriciotogneri.entitystorage.EntityStorage;
 import com.mauriciotogneri.entitystorage.exceptions.EntityNotFoundException;
 import com.mauriciotogneri.entitystorage.exceptions.InvalidKeyException;
 

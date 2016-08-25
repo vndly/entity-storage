@@ -1,6 +1,8 @@
-package com.mauriciotogneri.entitystorage;
+package com.mauriciotogneri.entitystorage.test;
 
 import android.support.test.runner.AndroidJUnit4;
+
+import com.mauriciotogneri.entitystorage.EntityStorage;
 
 import org.junit.After;
 import org.junit.Test;
